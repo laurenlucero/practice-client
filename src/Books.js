@@ -5,9 +5,10 @@ import {
 } from "@apollo/client";
 
 
-const BOOKS = gql`
+const GET_BOOKS = gql`
   query GetBooks {
     books {
+      id
       title
       author
     }
@@ -16,7 +17,7 @@ const BOOKS = gql`
 
 const Books = () => {
   
-  const { loading, error, data } = useQuery(BOOKS)
+  const { loading, error, data } = useQuery(GET_BOOKS)
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>

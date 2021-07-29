@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { gql, useMutation } from '@apollo/client';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const ADD_BOOK = gql`
   mutation NewBook($title: String!, $author: String!) {
@@ -13,43 +13,49 @@ const ADD_BOOK = gql`
 `
 
 const AddBookForm = () => {
-
-  const [addBook, { data, loading, error }] = useMutation(ADD_BOOK)
-
-  if (loading) return 'Submitting...';
-  if (error) return `Submission error: ${error.message}`;
+  
+  const [formState, setFormState] = useState({title: '', author: ''})
+  
+  const [addBook] = useMutation(ADD_BOOK, {
+    variables: {
+      title: formState.title,
+      author: formState.author
+    }
+  })
 
   return ( 
     <div>
       <h2>Add A Book</h2>
-      <Formik
-      initialValues={{title: '', author: ''}}
-      validate={values => {
-        const errors = {}
-        if (!values.title) {
-          errors.title = 'Required'
-        } else if (!values.author) {
-          errors.author = 'Required'
-        }
-        return errors
-      }}
-      onSubmit={(values) => {
-        addBook(values)
-        console.log(data)
-      }}
-      >
-         <Form>
-           <Field type="title" name="title" />
-           <ErrorMessage name="title" component="div" />
-           <Field type="author" name="author" />
-           <ErrorMessage name="author" component="div" />
+         <form
+          onSubmit={e => {
+            e.preventDefault()
+            addBook()
+          }}
+         >
+           <input 
+            type="text" 
+            placeholder="book title"
+            name="title" 
+            value={formState.title} 
+            onChange={(e) => {
+              setFormState({...formState, title: e.target.value})
+            }}
+           />
+           <input 
+            type="text" 
+            placeholder="author of book"
+            name="author" 
+            value={formState.author} 
+              onChange={(e) => {
+              setFormState({...formState, author: e.target.value})
+              }}
+            />
            <button type="submit">
              Submit
            </button>
-         </Form>
-      </Formik>
+         </form>
     </div> 
   );
 }
- 
+
 export default AddBookForm;
