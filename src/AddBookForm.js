@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import { gql, useMutation } from '@apollo/client';
 // import { Formik, Form, Field, ErrorMessage } from 'formik';
 
+
 const ADD_BOOK = gql`
-  mutation NewBook($title: String!, $author: String!) {
+  mutation AddBook($title: String, $author: String) {
     addBook(title: $title, author: $author) {
-      id
       title
       author
     }
@@ -16,12 +16,7 @@ const AddBookForm = () => {
   
   const [formState, setFormState] = useState({title: '', author: ''})
   
-  const [addBook] = useMutation(ADD_BOOK, {
-    variables: {
-      title: formState.title,
-      author: formState.author
-    }
-  })
+  const [addBook] = useMutation(ADD_BOOK)
 
   return ( 
     <div>

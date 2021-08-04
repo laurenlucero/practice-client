@@ -6,9 +6,8 @@ import {
 
 
 const GET_BOOKS = gql`
-  query GetBooks {
+  query getBooks {
     books {
-      id
       title
       author
     }
