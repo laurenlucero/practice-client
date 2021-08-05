@@ -9,7 +9,9 @@ const GET_BOOKS = gql`
   query getBooks {
     books {
       title
-      author
+      author {
+        name
+      }
     }
   }
 `
@@ -21,9 +23,11 @@ const Books = () => {
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error</p>
 
+// return <pre>{JSON.stringify(data, null, 2)}</pre>
+
   return data.books.map(({ title, author }) => (
       <div key={title}>
-        <p>{title} by {author}</p>
+        <p>{title} by {author.name}</p>
       </div>
     ));
   }
