@@ -1,14 +1,12 @@
 import './App.css';
-import Books from './Books'
-import AddBookForm from './AddBookForm';
-import BookMutation from './NewBookMutation';
+// import Books from './Books'
+import BookMutation from './BookMutation';
 
 function App() {
   return (
     <>
-      <AddBookForm />
       <BookMutation />
-      <Books />
+      {/* <Books /> */}
     </>
   );
 }
